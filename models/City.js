@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+import { imageSchema } from './Image.js';
 
 const citySchema = new mongoose.Schema({
   name: {
-    en: { type: String, required: true, trim: true },
-    ar: { type: String, required: true, trim: true }
+    type: String,
+    required: true,
   },
   country: {
     type: mongoose.Schema.Types.ObjectId,
@@ -11,39 +12,28 @@ const citySchema = new mongoose.Schema({
     required: true
   },
   description: {
-    en: String,
-    ar: String
+    type: String,
+    required: true,
   },
-  population: Number,
-  timezone: String,
   coordinates: {
-    lat: { type: Number, required: true },
-    lng: { type: Number, required: true }
+    lat: { type: Number },
+    lng: { type: Number }
+  },
+  favTime: {
+    type: String,
+  },
+  favMonth: {
+    type: String,
   },
   weather: {
-    lastFetched: Date,
+    currentTemp: Number,
+    condition: String,
+    humididy: Number,
+    windSpeed: Number, 
     isAutoUpdate: { type: Boolean, default: true }
   },
-  images: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Image'
-  }],
-  isActive: {
-    type: Boolean,
-    default: true
-  },
-  isPopular: {
-    type: Boolean,
-    default: false
-  },
-  metaTitle: {
-    en: String,
-    ar: String
-  },
-  metaDescription: {
-    en: String,
-    ar: String
-  }
+  imageCover: imageSchema,
+  images: [imageSchema],
 }, {
   timestamps: true
 });

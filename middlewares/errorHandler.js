@@ -1,65 +1,71 @@
-import { errorResponse } from '../utils/responseHandler.js';
-import logger from '../utils/logger.js';
 
-export const errorHandler = (err, req, res, next) => {
-    let error = { ...err };
-    error.message = err.message;
+import { AppError } from '../utils/appError';
 
-    // Log error
-    logger.error('Error occurred', err, {
-        path: req.path,
-        method: req.method,
-        ip: req.ip
+
+
+
+const handleCastErrorDb = (err) => {
+    const message = `invalid ${err.path}: ${err.value}`
+    return new AppError(message, 400);
+}
+const handleDuplicateFieldsDb = (err) => {
+    const value = err.errmsg.match(/(["'])(?:(?=(\\?))\2.)*?\1/)[0];
+    const message = `Duplicat field value ${value}, please choose another one`;
+    return new AppError(message, 400)
+}
+const handleValidationErrorDb = (err) => {
+    const errors = Object.values(err).map(val => val.message)
+    const message = `Invalid input Data: ${errors.join('. ')}`;
+    return new AppError(message, 400)
+
+}
+
+
+
+const handleJwtError = () => new AppError('invalid token, please log in again', 401)
+const handleExpiredJWT = () => {
+    return new AppError('your token has expired please log in again', 401)
+}
+
+
+
+
+const sendErrorDev = (err, res) => {
+    res.status(err.statusCode);
+    res.json({
+        status: err.status,
+        message: err.message,
+        error: err,
+        stack: err.stack
     });
-
-    // Mongoose bad ObjectId
-    if (err.name === 'CastError') {
-        const message = 'Resource not found';
-        error = errorResponse(res, message, 404);
-        return;
+}
+const sendErrorProd = (err, res) => {
+    if (err.isOperational) { // trust the error: send the message
+        res.status(err.statusCode);
+        res.json({
+            status: err.status,
+            message: err.message,
+        });
+    } else {    // programming or unknown error: dont tell the client with the error
+        console.error(err)
+        res.status(500).json({
+            status: 'error',
+            message: 'something went very wrong'
+        })
     }
+}
+const errorHandler = (err, req, res, next) => {
+    err.statusCode = (err.statusCode && err.statusCode !== 200) ? err.statusCode : 500;
+    err.status = err.status || 'error'
 
-    // Mongoose duplicate key
-    if (err.code === 11000) {
-        const field = Object.keys(err.keyValue)[0];
-        const message = `${field} already exists`;
-        error = errorResponse(res, message, 400);
-        return;
+    if (process.env.NODE_ENV === 'production') {
+    
+        sendErrorProd(err, res)
     }
-
-    // Mongoose validation error
-    if (err.name === 'ValidationError') {
-        const errors = Object.values(err.errors).map(val => ({
-        field: val.path,
-        message: val.message
-        }));
         
-        error = errorResponse(res, 'Validation failed', 422, errors);
-        return;
+    else if (process.env.NODE_ENV === 'development') {
+        sendErrorDev(err, res)
     }
-
-    // JWT errors
-    if (err.name === 'JsonWebTokenError') {
-        error = errorResponse(res, 'Invalid token', 401);
-        return;
-    }
-
-    if (err.name === 'TokenExpiredError') {
-        error = errorResponse(res, 'Token expired', 401);
-        return;
-    }
-
-    // Default error
-    const statusCode = err.statusCode || 500;
-    const message = err.message || 'Server Error';
-
-    errorResponse(res, message, statusCode);
 };
 
-export const notFound = (req, res, next) => {
-    errorResponse(res, `Route not found - ${req.originalUrl}`, 404);
-};
-
-export const asyncHandler = (fn) => (req, res, next) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-};
+export default errorHandler;

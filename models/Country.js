@@ -1,47 +1,54 @@
 import mongoose from 'mongoose';
+import { imageSchema } from './Image.js';
 
 const countrySchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    code: {
-        type: String,
-        required: true,
-        unique: true,
-        uppercase: true,
-        maxlength: 3
-    },
-    description: String,
-    currency: {
-        type: String,
-        required: true
-    },
-    language: {
-        type: String,
-        required: true
-    },
-    timezone: {
-        type: String,
-        required: true
-    },
-    images: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Image'
-    }],
-    isActive: {
-        type: Boolean,
-        default: true
-    },
-    metaTitle: String,
-    metaDescription: String
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  code: {
+    type: String,
+    required: true,
+    unique: true,
+    uppercase: true,
+    maxlength: 3
+  },
+  continent: {
+    type: String,
+    required: true,
+  },
+  currency: {
+    type: String,
+    required: true
+  },
+  language: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  imageCover: {
+    type: imageSchema,
+  },
+  images: [imageSchema],
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  packageType: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PackageType',
+  },
+  metaTitle: String,
+  metaDescription: String
 }, {
   timestamps: true
 });
 
-countrySchema.index({ 'name': 'text', 'description': 'text', });
-countrySchema.index({ code: 1 });
+countrySchema.index({ 'name': 'text', 'continent': 'text', 'language': 'text' });
 countrySchema.index({ isActive: 1 });
 
 export default mongoose.model('Country', countrySchema);

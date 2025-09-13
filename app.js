@@ -1,9 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path'
-import { AppError } from './utils/appError';
-import firstResponse from './types/firstResponse';
-import api from './api'
+import { AppError } from './utils/appError.js';
+import api from './routes/index.js'
 import errorHandler from './middlewares/errorHandler';
 import { rateLimit } from 'express-rate-limit'
 import helmet from 'helmet'
