@@ -9,8 +9,8 @@ const objectIdString = z.string().refine(val => Types.ObjectId.isValid(val), {
 export const hotelSchema = z.object({
   name: z.string().min(1),
   image: z.string().url(),
-  country: z.objectIdString, 
-  city: z.objectIdString,
+  country: objectIdString, 
+  city: objectIdString,
   rating: z.number().min(0).max(5),
   category: z.string().optional(),
   roomNumber: z.number().int().positive().optional(),
@@ -29,3 +29,6 @@ export const hotelSchema = z.object({
   images: z.array(imageSchema).optional(),
   alt: z.string()
 });
+
+
+export const hotelUpdateSchema = hotelSchema.partial();

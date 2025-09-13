@@ -1,32 +1,26 @@
-// routes/cities.js
 import express from 'express';
-import {
-  getCities,
-  getCity,
-  createCity,
-  updateCity,
-  deleteCity,
-  getCitiesByCountry,
-  toggleCityStatus,
-  toggleCityPopular
-} from '../controllers/city.controller.js';
-import { authenticate, optionalAuth } from '../middlewares/auth.js';
-import { canManageContent } from '../middlewares/roles.js';
-
+import { protect } from '../middlewares/auth.js';
+import * as cityControllers from '../controllers/city.controller.js'
+import { checkcityId } from '../utils/checkDocumentExists.js';
+import { citySchema , cityUpdateSchema} from '../schema/citySchema.js';
+import { validateRequest } from '../middlewares/validateRequest.js';
 const router = express.Router();
 
-// Public routes
-router.get('/', optionalAuth, getCities);
-router.get('/country/:countryId', getCitiesByCountry);
-router.get('/:id', optionalAuth, getCity);
+router
+    .route('/')
+    .get(cityControllers.getAllCities)
+    .post(protect, restrictTo(['admin', 'manager', 'data-entry']), validateRequest(citySchema), cityControllers.addCity)
 
-// Protected routes
-router.use(authenticate, canManageContent);
 
-router.post('/', createCity);
-router.put('/:id', updateCity);
-router.delete('/:id', deleteCity);
-router.patch('/:id/toggle-status', toggleCityStatus);
-router.patch('/:id/toggle-popular', toggleCityPopular);
+router.use(checkcityId)
 
-export default router;
+router
+    .route('/:id')
+    .get(cityControllers.getcity)
+    .patch(protect, restrictTo(['admin', 'manager']), upload.fields([
+        {name: 'imageCover', maxCount: 1},
+        {name: 'images', maxCount: 20}
+    ]), validateRequest(cityUpdateSchema), resizecityPhoto, uploadcityImages,  cityControllers.updatecity)
+    
+    .delete(protect, restrictTo(['admin']), cityControllers.deletecity)
+

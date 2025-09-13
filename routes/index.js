@@ -16,7 +16,8 @@ router.use('/packageTypes', packageRoutes);
 router.use('/countries', countryRoutes);
 router.use('/cities', cityRoutes);
 router.use('/hotels', cityRoutes);
-router.use('/flights', cityRoutes);
+router.use('/flights-booking', cityRoutes);
+router.use('/airLines', cityRoutes);
 router.use('/tours', cityRoutes);
 router.use('/services', imageRoutes);
 

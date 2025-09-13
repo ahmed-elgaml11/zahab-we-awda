@@ -18,5 +18,4 @@ export const countrySchema = z.object({
   isActive: z.boolean().default(true),
   packageType: objectIdString.optional(),
   alt: z.string()
-
 });
