@@ -19,9 +19,7 @@ const cityTourSchema = new mongoose.Schema({
   duration: {
     hours: {
       type: Number,
-      required: true,
-      min: [1, 'Duration must be at least 1 hour'],
-      max: [24, 'Duration cannot exceed 24 hours']
+      required: true
     },
     type: {
       type: String,
@@ -52,23 +50,19 @@ const cityTourSchema = new mongoose.Schema({
     },
     price: {
       type: Number,
-      required: true,
-      min: [0, 'Price cannot be negative']
+      required: true
     },
     currency: {
       type: String,
-      default: 'USD',
-      maxlength: [3, 'Currency code cannot be more than 3 characters']
+      default: 'USD'
     },
     maxGroupSize: {
       type: Number,
-      required: true,
-      min: [1, 'Group size must be at least 1']
+      required: true
     },
     minGroupSize: {
       type: Number,
-      default: 1,
-      min: [1, 'Minimum group size must be at least 1']
+      default: 1
     },
     includes: [{
       type: String,
@@ -96,8 +90,7 @@ const cityTourSchema = new mongoose.Schema({
   itinerary: [{
     order: {
       type: Number,
-      required: true,
-      min: 1
+      required: true
     },
     attraction: {
       type: mongoose.Schema.Types.ObjectId,
@@ -112,9 +105,8 @@ const cityTourSchema = new mongoose.Schema({
       }
     },
     duration: {
-      type: Number, // in minutes
-      required: true,
-      min: [5, 'Duration must be at least 5 minutes']
+      type: Number,
+      required: true
     },
     description: {
       type: String,
@@ -127,7 +119,7 @@ const cityTourSchema = new mongoose.Schema({
     activities: [{
       name: String,
       nameAr: String,
-      duration: Number // in minutes
+      duration: Number
     }],
     images: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -168,18 +160,8 @@ const cityTourSchema = new mongoose.Schema({
       trim: true
     },
     coordinates: {
-      latitude: {
-        type: Number,
-        // required: true,
-        min: [-90, 'Latitude must be between -90 and 90'],
-        max: [90, 'Latitude must be between -90 and 90']
-      },
-      longitude: {
-        type: Number,
-        // required: true,
-        min: [-180, 'Longitude must be between -180 and 180'],
-        max: [180, 'Longitude must be between -180 and 180']
-      }
+      latitude: Number,
+      longitude: Number
     },
     instructions: {
       type: String,
@@ -198,16 +180,8 @@ const cityTourSchema = new mongoose.Schema({
       enum: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
     }],
     timeSlots: [{
-      startTime: {
-        type: String,
-        required: true,
-        match: [/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (HH:MM)']
-      },
-      endTime: {
-        type: String,
-        required: true,
-        match: [/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (HH:MM)']
-      },
+      startTime: String,
+      endTime: String,
       maxBookings: {
         type: Number,
         default: 1
@@ -230,14 +204,8 @@ const cityTourSchema = new mongoose.Schema({
   // Requirements and restrictions
   requirements: {
     ageLimit: {
-      min: {
-        type: Number,
-        min: [0, 'Minimum age cannot be negative']
-      },
-      max: {
-        type: Number,
-        max: [120, 'Maximum age cannot exceed 120']
-      }
+      min: Number,
+      max: Number
     },
     fitnessLevel: {
       type: String,
@@ -284,8 +252,6 @@ const cityTourSchema = new mongoose.Schema({
     },
     rating: {
       type: Number,
-      min: 1,
-      max: 5,
       required: true
     },
     comment: String,
@@ -297,9 +263,7 @@ const cityTourSchema = new mongoose.Schema({
   }],
   averageRating: {
     type: Number,
-    default: 0,
-    min: 0,
-    max: 5
+    default: 0
   },
   totalReviews: {
     type: Number,
@@ -320,15 +284,8 @@ const cityTourSchema = new mongoose.Schema({
       type: String,
       trim: true
     }],
-    experience: {
-      type: Number, // years of experience
-      min: [0, 'Experience cannot be negative']
-    },
-    rating: {
-      type: Number,
-      min: 0,
-      max: 5
-    },
+    experience: Number,
+    rating: Number,
     bio: {
       type: String,
       trim: true
@@ -367,41 +324,15 @@ const cityTourSchema = new mongoose.Schema({
 
   // SEO Fields
   seo: {
-    metaTitle: {
-      type: String,
-      trim: true,
-      maxlength: [60, 'Meta title cannot be more than 60 characters']
-    },
-    metaTitleAr: {
-      type: String,
-      trim: true,
-      maxlength: [60, 'Arabic meta title cannot be more than 60 characters']
-    },
-    metaDescription: {
-      type: String,
-      trim: true,
-      maxlength: [160, 'Meta description cannot be more than 160 characters']
-    },
-    metaDescriptionAr: {
-      type: String,
-      trim: true,
-      maxlength: [160, 'Arabic meta description cannot be more than 160 characters']
-    },
-    keywords: {
-      type: String,
-      trim: true
-    },
-    keywordsAr: {
-      type: String,
-      trim: true
-    },
-    slugUrl: {
-      type: String,
-      trim: true
-    },
+    metaTitle: String,
+    metaTitleAr: String,
+    metaDescription: String,
+    metaDescriptionAr: String,
+    keywords: String,
+    keywordsAr: String,
+    slugUrl: String,
     priority: {
       type: String,
-      // enum: ['0.1', '0.3', '0.5', '0.7', '0.9', '1.0'],
       default: '0.7'
     },
     changeFrequency: {
@@ -425,20 +356,9 @@ const cityTourSchema = new mongoose.Schema({
       type: Boolean,
       default: false
     },
-    ogTitle: {
-      type: String,
-      trim: true,
-      maxlength: [60, 'OG title cannot be more than 60 characters']
-    },
-    ogDescription: {
-      type: String,
-      trim: true,
-      maxlength: [160, 'OG description cannot be more than 160 characters']
-    },
-    ogImage: {
-      type: String,
-      trim: true
-    }
+    ogTitle: String,
+    ogDescription: String,
+    ogImage: String
   },
 
   createdBy: {
@@ -463,38 +383,34 @@ cityTourSchema.index({ isPopular: 1 });
 cityTourSchema.index({ 'meetingPoint.coordinates.latitude': 1, 'meetingPoint.coordinates.longitude': 1 });
 cityTourSchema.index({ tags: 1 });
 cityTourSchema.index({ createdAt: -1 });
-cityTourSchema.index({ 'seo.slugUrl': 1 }); // Index for slug search
+cityTourSchema.index({ 'seo.slugUrl': 1 });
 
 // Helper function to generate slug
 function generateSlug(text) {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '') // Remove special characters except spaces and hyphens
-    .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 // Pre-save middleware to auto-generate SEO slug
 cityTourSchema.pre('save', async function(next) {
   try {
-    // Auto-generate slug if not provided or if title changed
     if (this.isNew || this.isModified('title') || !this.seo?.slugUrl) {
-      // Initialize seo object if it doesn't exist
       if (!this.seo) {
         this.seo = {};
       }
 
-      // Generate base slug from title
       let baseSlug = generateSlug(this.title);
       let slug = baseSlug;
       let counter = 1;
 
-      // Check for existing slugs and make unique
       while (true) {
         const existingDoc = await this.constructor.findOne({
           'seo.slugUrl': slug,
-          _id: { $ne: this._id } // Exclude current document
+          _id: { $ne: this._id }
         });
 
         if (!existingDoc) {
@@ -507,7 +423,6 @@ cityTourSchema.pre('save', async function(next) {
 
       this.seo.slugUrl = slug;
 
-      // Auto-generate basic SEO fields if not provided
       if (!this.seo.metaTitle) {
         this.seo.metaTitle = this.title;
       }
@@ -542,41 +457,6 @@ cityTourSchema.virtual('maxGroupSize').get(function() {
     return Math.max(...this.packages.map(pkg => pkg.maxGroupSize));
   }
   return 0;
-});
-
-// Pre-save middleware to validate packages
-cityTourSchema.pre('save', function(next) {
-  // Ensure at least one package exists
-  if (!this.packages || this.packages.length === 0) {
-    return next(new Error('At least one tour package is required'));
-  }
-
-  // Validate package group sizes
-  for (let pkg of this.packages) {
-    if (pkg.minGroupSize > pkg.maxGroupSize) {
-      return next(new Error('Minimum group size cannot be greater than maximum group size'));
-    }
-  }
-
-  // Validate itinerary order
-  if (this.itinerary && this.itinerary.length > 0) {
-    const orders = this.itinerary.map(item => item.order);
-    const uniqueOrders = [...new Set(orders)];
-    if (orders.length !== uniqueOrders.length) {
-      return next(new Error('Itinerary order numbers must be unique'));
-    }
-  }
-
-  // Validate time slots
-  if (this.availability && this.availability.timeSlots) {
-    for (let slot of this.availability.timeSlots) {
-      if (slot.startTime >= slot.endTime) {
-        return next(new Error('End time must be after start time'));
-      }
-    }
-  }
-
-  next();
 });
 
 // Calculate average rating
@@ -659,4 +539,4 @@ cityTourSchema.statics.findPopular = function(limit = 10) {
 // Ensure virtual fields are serialized
 cityTourSchema.set('toJSON', { virtuals: true });
 
-module.exports = mongoose.model('CityTour', cityTourSchema);
+export default mongoose.model('CityTour', cityTourSchema);
