@@ -7,10 +7,6 @@ const HotelSchema = new mongoose.Schema(
         type: String,
         required: true,
     },
-    image: {
-        type: String,
-        required: true,
-    },
     country: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Country',
@@ -68,7 +64,7 @@ const HotelSchema = new mongoose.Schema(
     imageCover: {
         type: imageSchema,
     },
-        images: [imageSchema]
+    images: [imageSchema]
     },
     {
         timestamps: true,

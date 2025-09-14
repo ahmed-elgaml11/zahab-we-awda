@@ -11,8 +11,8 @@ export const citySchema = z.object({
   country: objectIdString, 
   description: z.string().min(1),
   coordinates: z.object({
-    lat: z.number().min(-90),
-    lng: z.number().max(90)
+    lat: z.number().min(-90).optional(),
+    lng: z.number().max(180).optional()
   }).optional(),
   favTime: z.string().optional(),
   favMonth: z.string().optional(),
@@ -25,5 +25,5 @@ export const citySchema = z.object({
   }).optional(),
   imageCover: imageSchema.optional(),
   images: z.array(imageSchema).optional(),
-  alt: z.string()
+  alt: z.string().optional()
 });

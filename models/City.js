@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { imageSchema } from './Image.js';
-import { alt } from 'joi';
 
 const citySchema = new mongoose.Schema({
   name: {
