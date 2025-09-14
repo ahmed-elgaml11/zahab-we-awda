@@ -21,5 +21,6 @@ router.use('/flights-booking', cityRoutes);
 router.use('/airLines', cityRoutes);
 router.use('/tours', cityRoutes);
 router.use('/services', imageRoutes);
+router.use('/blogs', imageRoutes);
 
 export default router;
