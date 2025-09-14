@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        minlength: 6
+        minlength: 6,
+        select: false
     },
     role: {
         type: String,
@@ -28,10 +29,6 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
 });
 
 userSchema.pre('save', async function(next) {

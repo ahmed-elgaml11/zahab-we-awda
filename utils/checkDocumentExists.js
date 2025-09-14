@@ -1,6 +1,7 @@
 import { errorResponse } from "./responseHandler.js"
 import Hotel from "../models/Hotel.js"
 import Country from "../models/Country.js"
+import User from "../models/User.js"
 
 export const checkHotelId = async(req, res, next) => {
     const { hotelId } = req.params
@@ -40,6 +41,22 @@ export const checkCountryId = async(req, res, next) => {
     const country = await Country.findById(countryId)
     if(!country){
         return errorResponse(res, 400, 'country not found')
+    }
+    next()    
+}
+
+
+
+
+
+export const checkUseryId = async(req, res, next) => {
+    const { userId } = req.params
+    if(!userId){
+        return errorResponse(res, 400, 'userId not found')
+    }
+    const user = await User.findById(userId)
+    if(!user){
+        return errorResponse(res, 400, 'user not found')
     }
     next()    
 }

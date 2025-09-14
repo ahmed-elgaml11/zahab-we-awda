@@ -1,26 +1,28 @@
-import express from 'express';
-import { authenticate, optionalAuth } from '../middlewares/auth.js';
-import { authorize, canManageUsers } from '../middlewares/roles.js';
-import {
-  getUsers,
-  getUser,
-  createUser,
-  updateUser,
-  deleteUser,
-  toggleUserStatus
-} from '../controllers/user.controller.js';
-
+import express from "express";
 const router = express.Router();
+import * as userController from '../controllers/user.controller.js'
+import { protect, restrictTo } from "../middlewares/auth.js";
+import { checkUseryId } from "../utils/checkDocumentExists.js";
+import { userUpdateValidationSchema, userValidationSchema } from "../schema/userSchema.js";
 
-// All user routes require authentication
-router.use(authenticate);
 
-// Only admins can manage users
-router.get('/', canManageUsers, getUsers);
-router.get('/:id', canManageUsers, getUser);
-router.post('/', canManageUsers, createUser);
-router.put('/:id', canManageUsers, updateUser);
-router.delete('/:id', canManageUsers, deleteUser);
-router.patch('/:id/status', canManageUsers, toggleUserStatus);
+router.use(protect)
 
-export default router;
+router.patch('/update-me', validateRequest(userUpdateValidationSchema), userController.updateMe)
+
+router.post('/deactivate/:userId', checkUseryId,protect, restrictTo(['admin']), userController.deActivateUser)
+
+
+router.use(restrictTo(['admin']))
+router
+  .route('/')
+    .get(userController.getAllUsers)  
+    .post(validateRequest(userValidationSchema), userController.addUser)
+
+router.use(checkUseryId)
+
+router
+  .route('/:id')
+    .get(userController.getUser)
+    .patch(validateRequest(userUpdateValidationSchema), userController.updateUser)
+    .delete(userController.deleteUser)    

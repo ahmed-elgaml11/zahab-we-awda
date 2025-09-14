@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
+router.use('/auth', authRoutes);
 router.use('/packages', packageRoutes);
 router.use('/packageTypes', packageRoutes);
 router.use('/countries', countryRoutes);

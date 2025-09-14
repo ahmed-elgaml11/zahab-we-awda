@@ -7,20 +7,20 @@ import {
   updateProfile,
   changePassword
 } from '../controllers/auth.controller.js';
-import { authenticate } from '../middlewares/auth.js';
+import { protect, restrictTo } from '../middlewares/auth.js';
 import { validate } from '../utils/validators.js';
 import { authValidators } from '../utils/validators.js';
+import { validateRequest } from '../middlewares/validateRequest.js';
+import { changePasswordSchema, loginSchema } from '../schema/userSchema.js';
 
 const router = express.Router();
 
-// Public routes (no authentication)
-router.post('/register', validate(authValidators.register), register);
-router.post('/login', validate(authValidators.login), login);
-router.post('/logout', logout);
+router.post('/login', validateRequest(loginSchema), login);
+router.post('/logout', protect, logout);
 
-// Protected routes (require authentication)
-router.get('/me', authenticate, getMe);
-router.put('/profile', authenticate, validate(authValidators.updateProfile), updateProfile);
-router.put('/password', authenticate, changePassword);
+
+router.patch('/changePassword', protect, validateRequest(changePasswordSchema), changePassword)
+router.get('/me', protect, getMe);
+
 
 export default router;

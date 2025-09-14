@@ -17,5 +17,5 @@ export const countrySchema = z.object({
   images: z.array(imageSchema).optional(),
   isActive: z.boolean().default(true),
   packageType: objectIdString.optional(),
-  alt: z.string()
+  alt: z.string().optional()
 });
