@@ -1,4 +1,4 @@
 export const imageSchema = new mongoose.Schema({
-  url: { type: String },
-  alt: { type: String }
+    url: { type: String, required: true },
+    description: { type: String }
 }, { _id: false }); 

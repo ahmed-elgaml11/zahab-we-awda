@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { imageSchema } from './Image.js';
+import { alt } from 'joi';
 
 const citySchema = new mongoose.Schema({
   name: {
@@ -34,6 +35,7 @@ const citySchema = new mongoose.Schema({
   },
   imageCover: imageSchema,
   images: [imageSchema],
+  alt: {type : String},
 }, {
   timestamps: true
 });

@@ -1,22 +1,22 @@
-import Hotel from "../models/Hotel.js";
+import User from "../models/User.js";
+
 export const getAll = (filter) => {
-    return Hotel.find(filter);
+    return User.find(filter);
 }
 
 export const createOne = async (body) => {
-    return Hotel.create(body)
+    return User.create(body)
 }
-
 export const getOneById = async (id ) => {
-    return Hotel.findById(id)
+    return User.findById(id)
 }
 
 export const updateOne = async (id, body ) => {
-    return await Hotel.findByIdAndUpdate(id, body, {
+    return await User.findByIdAndUpdate(id, body, {
         new: true,
     })
 }
 export const deleteOne = async (id ) => {
-    return await Hotel.findByIdAndDelete(id)
+    return await User.findByIdAndDelete(id)
 }
 

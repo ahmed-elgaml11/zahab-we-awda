@@ -1,43 +1,27 @@
-// routes/packages.js
 import express from 'express';
 import {
-  getPackageTypes,
-  getCountriesByType,
-  getPackagesByType,
-  getPackagesByCountry,
-  getPackagesByCity,
-  getPackageDetail,
-  getFeaturedPackages,
-  getPackages,
+  getPackagesByTypeAndCountry,
   createPackage,
+  getPackage,
   updatePackage,
-  deletePackage,
-  getPackageJourney,
-  getPackageStats,
-  searchPackages
+  deletePackage
 } from '../controllers/package.controller.js';
-import { authenticate } from '../middlewares/auth.js';
-import { canManageContent } from '../middlewares/roles.js';
 
 const router = express.Router();
 
-// Public routes - User Journey
-router.get('/types', getPackageTypes);
-router.get('/types/:typeId/countries', getCountriesByType);
-router.get('/types/:typeId/countries/:countryId/packages', getPackageJourney);
-router.get('/types/:typeId/packages', getPackagesByType);
-router.get('/countries/:countryId/packages', getPackagesByCountry);
-router.get('/cities/:cityId/packages', getPackagesByCity);
-router.get('/featured', getFeaturedPackages);
-router.get('/search', searchPackages);
-router.get('/:idOrSlug', getPackageDetail);
-router.get('/', getPackages);
+// GET /api/packages/type/:packageTypeId/country/:countryId - Get packages by type and country
+router.get('/type/:packageTypeId/country/:countryId', getPackagesByTypeAndCountry);
 
-// Protected admin routes
-router.use(authenticate, canManageContent);
-router.get('/stats/overview', getPackageStats);
+// POST /api/packages - Create a new package
 router.post('/', createPackage);
+
+// GET /api/packages/:slug - Get package by slug
+router.get('/:slug', getPackage);
+
+// PUT /api/packages/:id - Update a package
 router.put('/:id', updatePackage);
+
+// DELETE /api/packages/:id - Delete a package
 router.delete('/:id', deletePackage);
 
 export default router;

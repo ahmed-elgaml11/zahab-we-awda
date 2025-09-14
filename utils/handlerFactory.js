@@ -1,11 +1,18 @@
 import * as hotelServices from '../services/hotel.js'
 import * as countryServices from '../services/country.js'
-import * as cityServices from '../services/city.js'
+import * as cityServices from '../services/city.js';
+import * as packageServices from '../services/package.js';
+import * as packageTypeServices from '../services/packageType.js'
+
+import APIFeatures from './apiFeatures.js'
+
 import { AppError } from './appError.js'
 const serviceMap = {
     hotel: hotelServices,
     city: cityServices,
     country: countryServices,
+    package: packageServices,
+    packageType: packageTypeServices
 }
 
 
@@ -82,17 +89,16 @@ export const updateOne = (model) =>
 
 
 export const deleteOne = (model) =>
-    async (req, res, next) => {
-        const { id } = req.params
-        const service = serviceMap[model]
-        const deletedDoc = await service.deleteOne(id);
-        if (!deletedDoc) {
-            throw new AppError('No Document found with that ID', 404);
-        }
-        res.status(204).json({
-            status: 'success',
-            data: {
-            }
-        });
-
+async (req, res, next) => {
+    const { id } = req.params
+    const service = serviceMap[model]
+    const deletedDoc = await service.deleteOne(id);
+    if (!deletedDoc) {
+        throw new AppError('No Document found with that ID', 404);
     }
+    res.status(204).json({
+        status: 'success',
+        data: {
+        }
+    });
+}

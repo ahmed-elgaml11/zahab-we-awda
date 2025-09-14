@@ -1,4 +1,3 @@
-// citySchema.ts
 import { z } from 'zod';
 import { imageSchema } from './imageSchema.js';
 
