@@ -1,13 +1,28 @@
 import * as hotelServices from '../services/hotel.js'
 import * as countryServices from '../services/country.js'
 import * as cityServices from '../services/city.js'
+import * as tourServices from '../services/tour.js'
+import * as packageServices from '../services/package.js'
+import * as packaTypeServices from '../services/packageType.js'
+import * as serviceServices from '../services/service.js'
+import * as airlineServices from '../services/airline.js'
+import * as userServices from '../services/user.js'
+
 import { AppError } from './appError.js'
+import { APIFeatures } from './queryFeatures.js'
+
+
+
 const serviceMap = {
     hotel: hotelServices,
     city: cityServices,
     country: countryServices,
     package: packageServices,
-    to
+    tour: tourServices,
+    packageType: packaTypeServices,
+    user: userServices,
+    service: serviceServices,
+    airline: airlineServices
 }
 
 

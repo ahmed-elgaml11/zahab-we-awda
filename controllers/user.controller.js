@@ -147,7 +147,7 @@
 
 import { createOne, deleteOne, getAll, getOne, updateOne } from "../utils/handlerFactory.js"
 import { AppError } from "../utils/appError.js"
-import { allowedData, deActivateTheUser, updateData } from "../services/user.service.js"
+import { allowedData, deActivateTheUser, updateData } from "../services/user.js"
 export const getAllUsers = getAll('user')
 
 export const addUser = createOne('user')

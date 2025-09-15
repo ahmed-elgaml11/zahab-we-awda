@@ -1,6 +1,6 @@
 import User from '../models/User.js';
 import { successResponse, errorResponse } from '../utils/responseHandler.js';
-import * as userServices from '../services/user.service.js'
+import * as userServices from '../services/user.js'
 
 
 export const login = async (req, res, next) => {
