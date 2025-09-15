@@ -1,6 +1,6 @@
 import { createOne, deleteOne, getAll, getOne, updateOne } from "../utils/handlerFactory.js"
 
-export const getAllAirlines = getAll('service')
+export const getAllServices = getAll('service')
 
 export const addService = createOne('service')
 

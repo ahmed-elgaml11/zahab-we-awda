@@ -1,3 +1,58 @@
+import mongoose from "mongoose";
+
+const pathSchema = new mongoose.Schema({
+  title: { type: String, required: true, trim: true },
+  duration: { type: String, required: true, trim: true },
+  description: { type: String, required: true, trim: true },
+  descText: { type: String, required: true, trim: true },
+});
+
+const tourSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    description: { type: String, trim: true },
+    descText: { type: String, trim: true },
+    city: { type: mongoose.Schema.Types.ObjectId, ref: "City", required: true },
+    country: { type: mongoose.Schema.Types.ObjectId, ref: "Country", required: true },
+    includes: [{ type: String, trim: true }],  
+    excludes: [{ type: String, trim: true }],   
+    paths: [pathSchema],                        
+  },
+  { timestamps: true }
+);
+
+export default mongoose.model("Tour", tourSchema);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import mongoose from 'mongoose';
 
 // const tourSchema = new mongoose.Schema({

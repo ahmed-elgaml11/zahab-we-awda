@@ -16,6 +16,7 @@ export const citySchema = z.object({
   name: z.string().min(1),
   country: objectIdString,
   description: z.string().min(1),
+  descText: z.string().optional(),
   coordinates: z.object({
     lat: z.number().min(-90),
     lng: z.number().max(90)

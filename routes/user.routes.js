@@ -20,7 +20,7 @@ router
     .get(userController.getAllUsers)  
     .post(validateRequest(userValidationSchema), userController.addUser)
 
-router.use(checkModelId)
+router.use(checkModelId('user'))
 
 router
   .route('/:id')

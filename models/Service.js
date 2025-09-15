@@ -6,8 +6,12 @@ const serviceSchema = new mongoose.Schema({
         required: [true],
         trim: true,
     },
-    imageCover: {type: String},
+    imageCover: { type: String },
     description: {
+        type: String,
+        trim: true
+    },
+    descText: {
         type: String,
         trim: true
     },
@@ -15,87 +19,45 @@ const serviceSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    summary: {
+        type: String,
+        trim: true
+    },
     seo: {
-        metaTitle: {
-            type: String,
-            trim: true,
-            maxlength: [60, 'Meta title cannot be more than 60 characters']
-        },
-        metaDescription: {
-            type: String,
-            trim: true,
-            maxlength: [160, 'Meta description cannot be more than 160 characters']
-        },
-        keywords: {
-            type: String,
-            trim: true
-        },
-        slugUrl: {
-            type: String,
-            trim: true,
-            unique: true,
-            sparse: true
-        },
-        priority: {
-            type: Number,
-        },
+        metaTitle: { type: String, trim: true, maxlength: 60 },
+        metaDescription: { type: String, trim: true, maxlength: 160 },
+        keywords: { type: String, trim: true },
+        slugUrl: { type: String, trim: true, unique: true, sparse: true },
+        priority: { type: Number },
         changeFrequency: {
             type: String,
             enum: ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'],
             default: 'monthly'
         },
-        noIndex: {
-            type: Boolean,
-            default: false
-        },
-        noFollow: {
-            type: Boolean,
-            default: false
-        },
-        noArchive: {
-            type: Boolean,
-            default: false
-        },
-        noSnippet: {
-            type: Boolean,
-            default: false
-        },
-        ogTitle: {
-            type: String,
-            trim: true,
-            maxlength: [60, 'OG title cannot be more than 60 characters']
-        },
-        ogDescription: {
-            type: String,
-            trim: true,
-            maxlength: [160, 'OG description cannot be more than 160 characters']
-        },
-        ogImage: {
-            type: String,
-            trim: true
-        }
-    },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        noIndex: { type: Boolean, default: false },
+        noFollow: { type: Boolean, default: false },
+        noArchive: { type: Boolean, default: false },
+        noSnippet: { type: Boolean, default: false },
+        ogTitle: { type: String, trim: true, maxlength: 60 },
+        ogDescription: { type: String, trim: true, maxlength: 160 },
+        ogImage: { type: String, trim: true }
     }
+
 }, {
-  timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
-serviceSchema.index({ icon: 1 });
 serviceSchema.index({ name: 1 });
 
 serviceSchema.index({
-  name: 'text',
-  description: 'text',
-  method: 'text',
-  'seo.metaTitle': 'text',
-  'seo.metaDescription': 'text',
-  'seo.keywords': 'text'
+    name: 'text',
+    description: 'text',
+    method: 'text',
+    'seo.metaTitle': 'text',
+    'seo.metaDescription': 'text',
+    'seo.keywords': 'text'
 });
 
 

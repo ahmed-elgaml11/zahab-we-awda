@@ -8,7 +8,6 @@ const objectIdString = z.string().refine(val => Types.ObjectId.isValid(val), {
 
 export const hotelSchema = z.object({
   name: z.string().min(1),
-  image: z.string().url(),
   country: objectIdString, 
   city: objectIdString,
   rating: z.number().min(0).max(5),
@@ -16,6 +15,7 @@ export const hotelSchema = z.object({
   roomNumber: z.number().int().positive().optional(),
   roomType: z.string().optional(),
   description: z.string().min(1),
+  descText: z.string().optional(),
   isActive: z.boolean().default(true),
   phone: z.string().optional(),
   email: z.string().email().optional(),

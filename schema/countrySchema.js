@@ -20,6 +20,7 @@ export const countrySchema = z.object({
   favMonth: z.array(z.enum(monthOptions)).optional(),
   language: z.string().min(1),
   description: z.string().min(1),
+  descText: z.string().optional(),
   imageCover: imageSchema.optional(),
   images: z.array(imageSchema).optional(),
   isActive: z.boolean().default(true),
