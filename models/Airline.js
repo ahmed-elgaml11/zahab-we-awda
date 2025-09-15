@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { imageSchema } from './Image';
 
 const airlineSchema = new mongoose.Schema({
   name: {
@@ -16,4 +15,4 @@ const airlineSchema = new mongoose.Schema({
 airlineSchema.index({ name: 1 });
 
 
-module.exports = mongoose.model('Airline', airlineSchema);
+export default mongoose.model('Airline', airlineSchema);

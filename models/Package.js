@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import { imageSchema } from './Image.js';
 import { generateSlug } from '../utils/slugifyHelper.js';
 
-const itineraryDaySchema = new mongoose.Schema({
+const headerSchema = new mongoose.Schema({
     dayNumber: { type: Number, required: true, min: 1 },
     nights: { type: Number, required: true, min: 0 },
     location: {
@@ -17,11 +16,35 @@ const packageSchema = new mongoose.Schema({
     name: { type: String, required: true },
     price: { type: Number, required: true },
     rate: { type: Number, default: 0 },
-    imageCover: String,
-    itinerary: itineraryDaySchema,
-    country: { type: mongoose.Schema.Types.ObjectId, ref: 'Country', required: true },
+    header: headerSchema,
     packageType: { type: mongoose.Schema.Types.ObjectId, ref: 'PackageType', required: true },
-
+    itinerary: [{
+        day: {
+            type: Number,
+            required: true,
+            min: 1
+        },
+        title: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        description: {
+            type: String,
+            required: true,
+            trim: true
+        },
+    }],
+    includes: [{
+        type: String,
+        trim: true
+    }],
+    excludes: [{
+        type: String,
+        trim: true
+    }],
+    country: { type: mongoose.Schema.Types.ObjectId, ref: 'Country', required: true },
+    imageCover: String,
     description: { type: String, required: true },
     metaTitle: String,
     metaDescription: String,

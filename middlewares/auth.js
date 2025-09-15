@@ -1,13 +1,9 @@
 // middlewares/auth.js
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
 import { AppError } from '../utils/appError.js';
 import { verifySignToken } from '../utils/jwt.js';
 import { getOneById } from '../services/user.js';
-import { errorResponse } from '../utils/responseHandler.js';
-import logger from '../utils/logger.js';
 
-export const protect = catchAsync(async (req, res, next) => {
+export const protect = async (req, res, next) => {
     // 1- check if there is a token and get it
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -31,7 +27,7 @@ export const protect = catchAsync(async (req, res, next) => {
 
     next()
 
-})
+}
 
 export const restrictTo = (roles) => {
     return (req, res, next) => {

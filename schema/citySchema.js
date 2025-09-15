@@ -33,3 +33,8 @@ export const citySchema = z.object({
   images: z.array(imageSchema).optional(),
   alt: z.string()
 });
+
+
+
+
+export const cityUpdateSchema = citySchema.partial()

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { imageSchema } from './Image';
 
 const serviceSchema = new mongoose.Schema({
     name: {
@@ -7,7 +6,7 @@ const serviceSchema = new mongoose.Schema({
         required: [true],
         trim: true,
     },
-    icon: {type: imageSchema},
+    imageCover: {type: String},
     description: {
         type: String,
         trim: true
@@ -38,9 +37,7 @@ const serviceSchema = new mongoose.Schema({
             sparse: true
         },
         priority: {
-            type: String,
-            enum: ['0.1', '0.3', '0.5', '0.7', '0.9', '1.0'],
-            default: '0.9'
+            type: Number,
         },
         changeFrequency: {
             type: String,
@@ -102,4 +99,4 @@ serviceSchema.index({
 });
 
 
-module.exports = mongoose.model('Service', serviceSchema);
+export default mongoose.model('Service', serviceSchema);

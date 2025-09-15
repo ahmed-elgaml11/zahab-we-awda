@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { cloudinaryUploadImage } from '../utils/cloudinary'
+import { cloudinaryUploadImage } from '../utils/cloudinary.js'
 
 export const uploadImages = async (req, res, next) => {
     if (!req.files)

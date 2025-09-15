@@ -1,5 +1,5 @@
 
-import { AppError } from '../utils/appError';
+import { AppError } from '../utils/appError.js';
 
 
 
@@ -59,11 +59,22 @@ const errorHandler = (err, req, res, next) => {
     err.status = err.status || 'error'
 
     if (process.env.NODE_ENV === 'production') {
+        let error = { ...err };
+
+        if (error.name === 'JsonWebTokenError') error = handleJwtError()
+        if (error.name === 'TokenExpiredError') error = handleExpiredJWT()
     
+        if (error.name == 'CastError') error = handleCastErrorDb(error)
+        if (error.name == 'ValidationError') error = handleValidationErrorDb(error)
+        if (error.code == 11000) error = handleDuplicateFieldsDb(error)
+
         sendErrorProd(err, res)
     }
         
     else if (process.env.NODE_ENV === 'development') {
+        if (err.name === 'JsonWebTokenError') err = handleJwtError()
+        if (err.name === 'TokenExpiredError') err = handleExpiredJWT()
+            
         sendErrorDev(err, res)
     }
 };

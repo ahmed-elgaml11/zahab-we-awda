@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { imageSchema } from './Image.js';
 
 
 import { monthOptions, timeOptions } from '../schema/countrySchema.js';
@@ -57,6 +56,12 @@ const countrySchema = new mongoose.Schema({
   metaDescription: String
 }, {
   timestamps: true
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
+
+countrySchema.virtual('cities', {
+  ref: 'City',
+  localField: '_id',
+  foreignField: 'country'
 });
 
 countrySchema.index({ 'name': 'text', 'continent': 'text', 'language': 'text' });

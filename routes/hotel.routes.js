@@ -1,7 +1,7 @@
 import express from 'express';
 import { protect } from '../middlewares/auth.js';
 import * as hotelControllers from '../controllers/hotel.controller.js'
-import { checkHotelId } from '../utils/checkDocumentExists.js';
+import { checkModelId } from '../utils/checkDocumentExists.js';
 import { hotelSchema, hotelUpdateSchema } from '../schema/hotelSchema.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
 import { resizePhotos } from '../middlewares/resizePhotos.js';
@@ -14,10 +14,10 @@ router
     .post(protect, restrictTo(['admin', 'manager', 'data-entry']), upload.fields([
         { name: 'imageCover', maxCount: 1 },
         { name: 'images', maxCount: 20 }
-    ]), validateRequest(hotelSchema), resizePhotos('hotel'), uploadImages, hotelControllers.addHotel)
+    ]), resizePhotos('hotel'), uploadImages, validateRequest(hotelSchema), hotelControllers.addHotel)
 
 
-router.use(checkHotelId)
+router.use(checkModelId)
 
 router
     .route('/:id')
@@ -25,7 +25,8 @@ router
     .patch(protect, restrictTo(['admin', 'manager']), upload.fields([
         { name: 'imageCover', maxCount: 1 },
         { name: 'images', maxCount: 20 }
-    ]),  validateRequest(hotelUpdateSchema),  uploadhotelImages, hotelControllers.updateHotel)
+    ]), resizePhotos('hotel'), uploadImages,  validateRequest(hotelUpdateSchema), hotelControllers.updateHotel)
 
     .delete(protect, restrictTo(['admin']), hotelControllers.deleteHotel)
 
+export default router;

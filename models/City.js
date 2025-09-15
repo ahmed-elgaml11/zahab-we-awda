@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import { imageSchema } from './Image.js';
+
+import { monthOptions, timeOptions } from '../schema/countrySchema.js';
 
 const citySchema = new mongoose.Schema({
   name: {

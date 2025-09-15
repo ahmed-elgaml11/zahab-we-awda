@@ -1,10 +1,8 @@
 import express from 'express';
 import {
-  register,
   login,
   logout,
   getMe,
-  updateProfile,
   changePassword
 } from '../controllers/auth.controller.js';
 import { protect, restrictTo } from '../middlewares/auth.js';

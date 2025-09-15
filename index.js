@@ -1,3 +1,5 @@
+import app from './app.js'
+import connectDB from './config/db.js';
 
 process.on('uncaughtException', (err) => {      // synchrounous code which not handled
     console.log('uncaught Exception')
@@ -5,8 +7,6 @@ process.on('uncaughtException', (err) => {      // synchrounous code which not h
     process.exit(1); 
 })
 
-import app from './app'
-import connectDB from './config/db.js';
 
 const port = process.env.PORT || 8080
 connectDB()

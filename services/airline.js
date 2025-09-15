@@ -1,4 +1,4 @@
-import Airlines from "../models/Airlines.js";
+import Airlines from "../models/Airline.js";
 
 export const getAll = (filter) => {
     return Airlines.find(filter);

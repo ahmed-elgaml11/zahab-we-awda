@@ -26,3 +26,6 @@ export const countrySchema = z.object({
   packageType: objectIdString.optional(),
   alt: z.string().optional()
 });
+
+
+export const countryUpdateSchema = countrySchema.partial()

@@ -3,24 +3,25 @@ import dotenv from 'dotenv';
 import path from 'path'
 import { AppError } from './utils/appError.js';
 import api from './routes/index.js'
-import errorHandler from './middlewares/errorHandler';
+import errorHandler from './middlewares/errorHandler.js';
 import { rateLimit } from 'express-rate-limit'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import mongoSantize from 'express-mongo-sanitize'
 import hpp from 'hpp'
-import { swaggerSpec } from './utils/swagger';
-import swaggerUi from 'swagger-ui-express';
+// import { swaggerSpec } from './utils/swagger';
+// import swaggerUi from 'swagger-ui-express';
 import cros from 'cors'
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
+import { cloudinaryConfig } from './utils/cloudinary.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, './.env') })
-
+cloudinaryConfig()
 
 
 const app = express();
@@ -39,7 +40,7 @@ app.get('/', (req, res) => {
 app.use(cookieParser()); 
 
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(cros({
     origin: '*',
@@ -74,9 +75,9 @@ app.use(hpp({
 }))
 
 app.use('/api/v1', api)
-app.all('*', (req, res, next) => {
-    next(new AppError(`Not Found - ${req.originalUrl}`, 404))
-})
+app.use((req, res, next) => {
+  next(new AppError(`Not Found - ${req.originalUrl}`, 404));
+});
 app.use(errorHandler)
 
 

@@ -1,4 +1,4 @@
-import Services from "../models/Services.js";
+import Services from "../models/Service.js";
 
 export const getAll = (filter) => {
     return Services.find(filter);

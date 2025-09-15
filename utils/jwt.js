@@ -1,5 +1,7 @@
 import { AppError } from "./appError.js"
 import jwt from 'jsonwebtoken'
+import { promisify } from 'util';
+
 
 const verify = promisify(jwt.verify)
 

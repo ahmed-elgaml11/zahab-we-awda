@@ -1,4 +1,4 @@
-import Hotel from "../models/Hotel.ja";
+import Hotel from "../models/Hotel.js";
 export const getAll = (filter) => {
     return Hotel.find(filter);
 }

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { imageSchema } from './Image.js';
 const HotelSchema = new mongoose.Schema(
   {
     name: {
