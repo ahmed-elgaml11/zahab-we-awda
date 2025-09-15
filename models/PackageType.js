@@ -7,7 +7,7 @@ const packageTypeSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
-    image: imageSchema,
+    image: String,
     alt: { type: String },
     description: String,
     metaTitle: String,

@@ -6,7 +6,8 @@ const serviceMap = {
     hotel: hotelServices,
     city: cityServices,
     country: countryServices,
-    package: packageServices
+    package: packageServices,
+    to
 }
 
 

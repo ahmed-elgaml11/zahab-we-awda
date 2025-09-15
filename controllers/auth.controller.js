@@ -1,7 +1,6 @@
 import User from '../models/User.js';
 import { successResponse, errorResponse } from '../utils/responseHandler.js';
 import * as userServices from '../services/user.service.js'
-import { use } from 'react';
 
 
 export const login = async (req, res, next) => {
@@ -32,30 +31,8 @@ export const logout = async (req, res, next) => {
 
 
 
-
-
 export const getMe = async (req, res, next) => {
     return successResponse(res, 200, 'User profile retrieved', req.user);
-};
-
-export const updateProfile = async (req, res, next) => {
-  try {
-    const fieldsToUpdate = {
-      name: req.body.name,
-      email: req.body.email
-    };
-
-    const user = await User.findByIdAndUpdate(
-      req.user.id,
-      fieldsToUpdate,
-      { new: true, runValidators: true }
-    );
-
-    successResponse(res, 'Profile updated successfully', user);
-  } catch (error) {
-    logger.error('Update profile error', error);
-    next(error);
-  }
 };
 
 export const changePassword = async (req, res, next) => {

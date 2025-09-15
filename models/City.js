@@ -20,20 +20,23 @@ const citySchema = new mongoose.Schema({
     lng: { type: Number }
   },
   favTime: {
-    type: String,
+    type: [String],
+    enum: timeOptions,
+    default: undefined, // Optional field
   },
   favMonth: {
-    type: String,
-  },
-  weather: {
+    type: [String],
+    enum: monthOptions,
+    default: undefined,
+  }, weather: {
     currentTemp: Number,
     condition: String,
     humididy: Number,
-    windSpeed: Number, 
+    windSpeed: Number,
     isAutoUpdate: { type: Boolean, default: true }
   },
-  imageCover: imageSchema,
-  images: [imageSchema],
+  imageCover: String,
+  images: [String],
 }, {
   timestamps: true
 });

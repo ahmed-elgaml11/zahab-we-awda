@@ -6,17 +6,22 @@ const objectIdString = z.string().refine(val => Types.ObjectId.isValid(val), {
   message: 'Invalid ObjectId ',
 });
 
+const timeOptions = ["morning", "afternoon", "evening", "night"];
+const monthOptions = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 export const citySchema = z.object({
   name: z.string().min(1),
-  country: objectIdString, 
+  country: objectIdString,
   description: z.string().min(1),
   coordinates: z.object({
     lat: z.number().min(-90),
     lng: z.number().max(90)
   }).optional(),
-  favTime: z.string().optional(),
-  favMonth: z.string().optional(),
+  favTime: z.array(z.enum(timeOptions)).optional(),
+  favMonth: z.array(z.enum(monthOptions)).optional(),
   weather: z.object({
     currentTemp: z.number().optional(),
     condition: z.string().optional(),

@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import { imageSchema } from './Image.js';
 
+
+import { monthOptions, timeOptions } from '../schema/countrySchema.js';
+
 const countrySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -31,9 +34,17 @@ const countrySchema = new mongoose.Schema({
     required: true,
   },
   imageCover: {
-    type: imageSchema,
+    type: String,
   },
-  images: [imageSchema],
+  favTime: {
+    type: [String],
+    enum: timeOptions,
+  },
+  favMonth: {
+    type: [String],
+    enum: monthOptions,
+  },
+  images: [String],
   isActive: {
     type: Boolean,
     default: true
