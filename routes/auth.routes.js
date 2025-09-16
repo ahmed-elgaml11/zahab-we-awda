@@ -6,8 +6,6 @@ import {
   changePassword
 } from '../controllers/auth.controller.js';
 import { protect, restrictTo } from '../middlewares/auth.js';
-import { validate } from '../utils/validators.js';
-import { authValidators } from '../utils/validators.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
 import { changePasswordSchema, loginSchema } from '../schema/userSchema.js';
 

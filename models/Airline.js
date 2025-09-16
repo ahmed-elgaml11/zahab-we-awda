@@ -1,18 +1,55 @@
 import mongoose from 'mongoose';
+import { generateSlug } from '../utils/slugifyHelper.js';
 
 const airlineSchema = new mongoose.Schema({
   name: {
+    type: String,
+    required: true,
+  },
+  imageCover: { type: String },
+  slug: { type: String, unique: true },
+  alt: { type: String, trim: true },
+  seo: {
+    metaTitle: { type: String, trim: true, maxlength: 60 },
+    metaDescription: { type: String, trim: true, maxlength: 160 },
+    keywords: { type: String, trim: true },
+    slugUrl: { type: String, trim: true, sparse: true },
+    priority: { type: Number },
+    changeFrequency: {
       type: String,
-      required: true,
+      enum: ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'],
+      default: 'monthly'
     },
-    image: {
-      type: String,
-    },
-    alt: {type : String}
+    noIndex: { type: Boolean, default: false },
+    noFollow: { type: Boolean, default: false },
+    noArchive: { type: Boolean, default: false },
+    noSnippet: { type: Boolean, default: false },
+    ogTitle: { type: String, trim: true, maxlength: 60 },
+    ogDescription: { type: String, trim: true, maxlength: 160 },
+    ogImage: { type: String, trim: true }
+  },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+},
+  {
+    timestamps: true,
   }
 );
 
+
 airlineSchema.index({ name: 1 });
+
+
+airlineSchema.pre('save', function (next) {
+  if (this.isModified('name') && this.name) {
+    this.slug = generateSlug(this.name);
+  }
+
+  if (!this.alt && this.name) {
+    this.alt = `${this.name} - Package`;
+  }
+  next();
+});
 
 
 export default mongoose.model('Airline', airlineSchema);

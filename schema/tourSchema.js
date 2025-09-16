@@ -15,12 +15,15 @@ const pathSchema = z.object({
 export const tourSchema = z.object({
   title: z.string().trim().nonempty("Name is required"),
   description: z.string().trim().nonempty("Description is required"),
-  descText: z.string().trim().nonempty("descText is required"),
+  descText: z.string().trim().optional(),
   city: objectIdString,
   country: objectIdString,
   includes: z.array(z.string().trim()).optional(),
   excludes: z.array(z.string().trim()).optional(),
   paths: z.array(pathSchema).optional(),
+  imageCover: z.string().optional(),
+  images: z.array(z.string()).optional(),
+  alt: z.string().optional(),
   seo: z.object({
     metaTitle: z.string().trim().max(60).optional(),
     metaDescription: z.string().trim().max(160).optional(),
@@ -35,7 +38,8 @@ export const tourSchema = z.object({
     ogTitle: z.string().trim().max(60).optional(),
     ogDescription: z.string().trim().max(160).optional(),
     ogImage: z.string().trim().optional(),
-    alt: z.string().optional(),
   }).optional(),
 })
 
+
+export const tourUpdateSchema = tourSchema.partial()

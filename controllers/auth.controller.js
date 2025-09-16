@@ -8,7 +8,7 @@ export const login = async (req, res, next) => {
 
   // Check if user exists
   const user = await userServices.findUser(email)
-  if (!user || user.comparePassword(password)) {
+  if (!user || !user.comparePassword(password)) {
     return errorResponse(res, 401, 'Invalid credentials');
   }
 
@@ -20,7 +20,7 @@ export const login = async (req, res, next) => {
 };
 
 export const logout = async (req, res, next) => {
-  res.cookie('token', 'none', {
+  res.cookie('jwt', 'none', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true
   });

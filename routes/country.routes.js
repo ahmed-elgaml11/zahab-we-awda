@@ -18,7 +18,7 @@ router
     ]), resizePhotos('country'), uploadImages, validateRequest(countrySchema), countryControllers.addCountry)
 
 
-router.use(checkModelId)
+router.use(checkModelId('country'))
 
 router
     .route('/:id')

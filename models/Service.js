@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+import { generateSlug } from '../utils/slugifyHelper.js';
+
+
 
 const serviceSchema = new mongoose.Schema({
     name: {
@@ -23,6 +26,8 @@ const serviceSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    slug: { type: String, unique: true },
+    alt: { type: String, trim: true },
     seo: {
         metaTitle: { type: String, trim: true, maxlength: 60 },
         metaDescription: { type: String, trim: true, maxlength: 160 },
@@ -58,6 +63,17 @@ serviceSchema.index({
     'seo.metaTitle': 'text',
     'seo.metaDescription': 'text',
     'seo.keywords': 'text'
+});
+
+serviceSchema.pre('save', function (next) {
+    if (this.isModified('name') && this.name) {
+        this.slug = generateSlug(this.name);
+    }
+
+    if (!this.alt && this.name) {
+        this.alt = `${this.name} - Package`;
+    }
+    next();
 });
 
 

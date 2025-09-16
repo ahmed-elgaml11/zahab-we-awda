@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { generateSlug } from '../utils/slugifyHelper.js';
 
 
 import { monthOptions, timeOptions } from '../schema/countrySchema.js';
@@ -11,7 +12,6 @@ const countrySchema = new mongoose.Schema({
   },
   code: {
     type: String,
-    required: true,
     unique: true,
     uppercase: true,
     maxlength: 3
@@ -22,18 +22,16 @@ const countrySchema = new mongoose.Schema({
   },
   currency: {
     type: String,
-    required: true
   },
   language: {
     type: String,
-    required: true
   },
   description: {
     type: String,
-    required: true,
   },
-  imageCover: {
+  descText: {
     type: String,
+    trim: true
   },
   favTime: {
     type: [String],
@@ -43,25 +41,60 @@ const countrySchema = new mongoose.Schema({
     type: [String],
     enum: monthOptions,
   },
-  images: [String],
   isActive: {
     type: Boolean,
     default: true
   },
-  packageType: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'PackageType',
+  images: [String],
+  imageCover: {
+    type: String,
   },
-  metaTitle: String,
-  metaDescription: String
-}, {
-  timestamps: true
-}, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
+  slug: { type: String, unique: true },
+  alt: { type: String, trim: true },
+  seo: {
+    metaTitle: { type: String, trim: true, maxlength: 60 },
+    metaDescription: { type: String, trim: true, maxlength: 160 },
+    keywords: { type: String, trim: true },
+    slugUrl: { type: String, trim: true, sparse: true },
+    priority: { type: Number },
+    changeFrequency: {
+      type: String,
+      enum: ['always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'],
+      default: 'monthly'
+    },
+    noIndex: { type: Boolean, default: false },
+    noFollow: { type: Boolean, default: false },
+    noArchive: { type: Boolean, default: false },
+    noSnippet: { type: Boolean, default: false },
+    ogTitle: { type: String, trim: true, maxlength: 60 },
+    ogDescription: { type: String, trim: true, maxlength: 160 },
+    ogImage: { type: String, trim: true }
+  },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+},
+  {
+    timestamps: true,
+  }
+);
+
+
 
 countrySchema.virtual('cities', {
   ref: 'City',
   localField: '_id',
   foreignField: 'country'
+});
+
+countrySchema.pre('save', function (next) {
+  if (this.isModified('name') && this.name) {
+    this.slug = generateSlug(this.name);
+  }
+
+  if (!this.alt && this.name) {
+    this.alt = `${this.name} - Package`;
+  }
+  next();
 });
 
 countrySchema.index({ 'name': 'text', 'continent': 'text', 'language': 'text' });

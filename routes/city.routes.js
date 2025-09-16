@@ -15,10 +15,10 @@ router
     .post(protect, restrictTo(['admin', 'manager', 'data-entry']), upload.fields([
         { name: 'imageCover', maxCount: 1 },
         { name: 'images', maxCount: 20 }
-    ]),  resizePhotos('city'), uploadImages, validateRequest(citySchema), cityControllers.addCity)
+    ]), resizePhotos('city'), uploadImages, validateRequest(citySchema), cityControllers.addCity)
 
 
-router.use(checkModelId)
+router.use(checkModelId('city'))
 
 router
     .route('/:id')

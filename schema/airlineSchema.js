@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import mongoose from 'mongoose';
-import { imageSchema } from './imageSchema.js';
 
 const objectIdString = z.string().refine(val => mongoose.Types.ObjectId.isValid(val), {
   message: 'Invalid ObjectId',
@@ -11,6 +10,7 @@ z.objectIdString = () => objectIdString;
 export const airlineSchema = z.object({
   name: z.string().min(1, "Airline name is required"),
   imageCover: z.url().optional(),
+  alt: z.string().optional(),
   seo: z.object({
     metaTitle: z.string().trim().max(60).optional(),
     metaDescription: z.string().trim().max(160).optional(),
@@ -25,6 +25,8 @@ export const airlineSchema = z.object({
     ogTitle: z.string().trim().max(60).optional(),
     ogDescription: z.string().trim().max(160).optional(),
     ogImage: z.string().trim().optional(),
-    alt: z.string().optional(),
   }).optional(),
 });
+
+
+export const airlineUpdateSchema = airlineSchema.partial();

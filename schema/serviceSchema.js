@@ -8,11 +8,12 @@ const objectIdString = z.string().refine(val => mongoose.Types.ObjectId.isValid(
 
 export const serviceSchema = z.object({
   name: z.string().min(1).trim(),
-  imageCover: z.url().optional(),
+  imageCover: z.string().optional(),
   description: z.string().optional(),
   descText: z.string().optional(),
   method: z.string().optional(),
   summary: z.string().optional(),
+  alt: z.string().optional(),
   seo: z.object({
     metaTitle: z.string().trim().max(60).optional(),
     metaDescription: z.string().trim().max(160).optional(),
@@ -27,10 +28,8 @@ export const serviceSchema = z.object({
     ogTitle: z.string().trim().max(60).optional(),
     ogDescription: z.string().trim().max(160).optional(),
     ogImage: z.string().trim().optional(),
-    alt: z.string().optional(),
   }).optional(),
-  createdBy: objectIdString
 });
 
 
-export const serviceUpdateSchema = serviceSchema.optional()
+export const serviceUpdateSchema = serviceSchema.partial()

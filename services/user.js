@@ -1,4 +1,3 @@
-import { tr } from "zod/locales";
 import User from "../models/User.js";
 export const getAll = (filter) => {
     return User.find(filter);
@@ -33,7 +32,7 @@ export const sendTokenResponse = (res, message, user ) => {
   const token = user.getSignedJwtToken();
 
   const options = {
-    expires: new Date(Date.now() +  24 * 60 * 60 * 1000), // 1 day
+    expires: new Date(Date.now() +  12 * 60 * 60 * 1000), // 12 hours
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict'

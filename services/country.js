@@ -1,4 +1,6 @@
 import Country from "../models/Country.js";
+
+
 export const getAll = (filter) => {
     return Country.find(filter);
 }

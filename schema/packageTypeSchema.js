@@ -2,12 +2,11 @@ import { z } from 'zod';
 
 export const packageTypeSchema = z.object({
   name: z.string().min(1).trim(),
-  imageCover: z.url().optional(),
+  imageCover: z.string().optional(),
   description: z.string().optional(),
   descText: z.string().optional(),
   isActive: z.boolean().default(true),
-  metaTitle: z.string().optional(),
-  metaDescription: z.string().optional(),
+  alt: z.string().optional(),
   seo: z.object({
     metaTitle: z.string().trim().max(60).optional(),
     metaDescription: z.string().trim().max(160).optional(),
@@ -22,7 +21,6 @@ export const packageTypeSchema = z.object({
     ogTitle: z.string().trim().max(60).optional(),
     ogDescription: z.string().trim().max(160).optional(),
     ogImage: z.string().trim().optional(),
-    alt: z.string().optional(),
   }).optional(),
 });
 

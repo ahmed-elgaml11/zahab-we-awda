@@ -1,29 +1,38 @@
 import express from 'express';
 const router = express.Router();
 
+import * as packageControllers from '../controllers/package.controller.js'
+import { checkModelId } from '../utils/checkDocumentExists.js';
+import { protect, restrictTo } from '../middlewares/auth.js';
+import { resizePhotos } from '../middlewares/resizePhotos.js';
+import { uploadImages } from '../middlewares/uploadPhotos.js';
+import { validateRequest } from '../middlewares/validateRequest.js';
+import { packageSchema, packageUpdateSchema } from '../schema/packageSchema.js';
+
+
 
 
 
 router
     .route('/')
-    .get(countryControllers.getAllCountries)
+    .get(packageControllers.getAllPackages)
     .post(protect, restrictTo(['admin', 'manager', 'data-entry']), upload.fields([
         { name: 'imageCover', maxCount: 1 },
         { name: 'images', maxCount: 20 }
-    ]), resizePhotos('country'), uploadImages, validateRequest(countrySchema), countryControllers.addCountry)
+    ]), resizePhotos('package'), uploadImages, validateRequest(packageSchema), packageControllers.addPackage)
 
 
-router.use(checkModelId)
+router.use(checkModelId('package'))
 
 router
     .route('/:id')
-    .get(countryControllers.getCountry)
+    .get(packageControllers.getPackage)
     .patch(protect, restrictTo(['admin', 'manager']), upload.fields([
         {name: 'imageCover', maxCount: 1},
         {name: 'images', maxCount: 20}
-    ]),resizePhotos('country'), uploadImages, validateRequest(countryUpdateSchema),  countryControllers.updateCountry)
+    ]),resizePhotos('package'), uploadImages, validateRequest(packageUpdateSchema),  packageControllers.updatePackage)
     
-    .delete(protect, restrictTo(['admin']), countryControllers.deleteCountry)
+    .delete(protect, restrictTo(['admin']), packageControllers.deletePackage)
 
 
 

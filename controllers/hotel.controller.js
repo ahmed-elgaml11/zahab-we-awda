@@ -1,4 +1,4 @@
-import { createOne, deleteOne, getAll, getOne, updateOne } from "../utils/handlerFactory"
+import { createOne, deleteOne, getAll, getOne, updateOne } from "../utils/handlerFactory.js"
 
 export const getAllHotels = getAll('hotel')
 

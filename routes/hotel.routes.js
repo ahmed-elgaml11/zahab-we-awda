@@ -17,7 +17,7 @@ router
     ]), resizePhotos('hotel'), uploadImages, validateRequest(hotelSchema), hotelControllers.addHotel)
 
 
-router.use(checkModelId)
+router.use(checkModelId('hotel'))
 
 router
     .route('/:id')

@@ -29,25 +29,29 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+
 });
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 12);
     next();
 });
 
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-userSchema.methods.getSignedJwtToken = function() {
+userSchema.methods.getSignedJwtToken = function () {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE || '7d'
+        expiresIn: process.env.JWT_EXPIRE || '12h'
     });
 };
 
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
     const user = this.toObject();
     delete user.password;
     return user;

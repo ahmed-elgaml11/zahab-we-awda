@@ -8,9 +8,8 @@ import { protect, restrictTo } from '../middlewares/auth.js';
 import { uploadImages } from '../middlewares/uploadPhotos.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
 import { checkModelId } from '../utils/checkDocumentExists.js';
+import { serviceSchema, serviceUpdateSchema } from '../schema/serviceSchema.js';
 
-// tourSchema 
-// tourUpdateSchema
 
 router
     .route('/')
@@ -18,20 +17,20 @@ router
     .post(protect, restrictTo(['admin', 'manager', 'data-entry']), upload.fields([
         { name: 'imageCover', maxCount: 1 },
         { name: 'images', maxCount: 20 }
-    ]), resizePhotos('tour'), uploadImages, validateRequest(tourSchema), serviceControllers.addTour)
+    ]), resizePhotos('service'), uploadImages, validateRequest(serviceSchema), serviceControllers.addService)
 
 
-router.use(checkModelId('tour'))
+router.use(checkModelId('service'))
 
 router
     .route('/:id')
-    .get(serviceControllers.getTour)
+    .get(serviceControllers.getService)
     .patch(protect, restrictTo(['admin', 'manager']), upload.fields([
         {name: 'imageCover', maxCount: 1},
         {name: 'images', maxCount: 20}
-    ]),resizePhotos('tour'), uploadImages, validateRequest(tourUpdateSchema),  serviceControllers.updateTour)
+    ]), resizePhotos('service'), uploadImages, validateRequest(serviceUpdateSchema), serviceControllers.updateService)
     
-    .delete(protect, restrictTo(['admin']), serviceControllers.deleteTour)
+    .delete(protect, restrictTo(['admin']), serviceControllers.deleteService)
 
 export default router
 

@@ -7,6 +7,7 @@ import * as packaTypeServices from '../services/packageType.js'
 import * as serviceServices from '../services/service.js'
 import * as airlineServices from '../services/airline.js'
 import * as userServices from '../services/user.js'
+import * as blogServices from '../services/blog.js'
 
 import { AppError } from './appError.js'
 import { APIFeatures } from './queryFeatures.js'
@@ -22,13 +23,18 @@ const serviceMap = {
     packageType: packaTypeServices,
     user: userServices,
     service: serviceServices,
-    airline: airlineServices
+    airline: airlineServices,
+    blog: blogServices
 }
 
 
 export const getAll = (model) =>
     async (req, res, next) => {
         const service = serviceMap[model]
+        if (!service) {
+            return next(new AppError(`No service found for model: ${model}`, 500));
+        }
+
         let filter = {}
         // if (req.params.tourId) filter = { tour: req.params.tourId }
 
@@ -53,7 +59,11 @@ export const getAll = (model) =>
 export const createOne = (model) =>
     async (req, res, next) => {
         const service = serviceMap[model]
-        const newDoc = await service.createOne(req.body);
+        if (!service) {
+            return next(new AppError(`No service found for model: ${model}`, 500));
+        }
+
+        const newDoc = await service.createOne({ ...req.body, createdBy: req.user?._id });
         res.status(201).json({
             status: 'success',
             data: {
@@ -66,6 +76,9 @@ export const getOne = (model) =>
     async (req, res, next) => {
         const { id } = req.params
         const service = serviceMap[model]
+        if (!service) {
+            return next(new AppError(`No service found for model: ${model}`, 500));
+        }
         const doc = await service.getOneById(id);
         if (!doc) {
             throw new AppError('No Document found with that ID', 404);
@@ -83,14 +96,19 @@ export const updateOne = (model) =>
     async (req, res, next) => {
         const { id } = req.params
         const service = serviceMap[model]
-        const updateDoc = await service.updateOne(id, req.body);
-        if (!updateDoc) {
+
+        if (!service) {
+            return next(new AppError(`No service found for model: ${model}`, 500));
+        }
+
+        const updatedDoc = await service.updateOne(id, { ...req.body, updatedBy: req.user?._id });
+        if (!updatedDoc) {
             throw new AppError('No Document found with that ID', 404);
         }
         res.status(200).json({
             status: 'success',
             data: {
-                data: updateDoc
+                data: updatedDoc
             }
         })
 
@@ -102,6 +120,10 @@ export const deleteOne = (model) =>
     async (req, res, next) => {
         const { id } = req.params
         const service = serviceMap[model]
+
+        if (!service) {
+            return next(new AppError(`No service found for model: ${model}`, 500));
+        }
         const deletedDoc = await service.deleteOne(id);
         if (!deletedDoc) {
             throw new AppError('No Document found with that ID', 404);

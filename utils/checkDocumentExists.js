@@ -9,6 +9,7 @@ import * as packaTypeServices from '../services/packageType.js'
 import * as serviceServices from '../services/service.js'
 import * as airlineServices from '../services/airline.js'
 import * as userServices from '../services/user.js'
+import * as blogServices from '../services/blog.js'
 
 const serviceMap = {
     hotel: hotelServices,
@@ -19,20 +20,21 @@ const serviceMap = {
     packageType: packaTypeServices,
     user: userServices,
     service: serviceServices,
-    airline: airlineServices
+    airline: airlineServices,
+    blog: blogServices
 }
 
-export const checkModelId = (model) => async(req, res, next) => {
-    const modelId = model + 'Id'
-    const id = req.params[paramName];
+export const checkModelId = ( modelName ) => async(req, res, next) => {
+    const modelId = modelName + 'Id'
+    const id = req.params[modelId];
 
      if(!id){
         return errorResponse(res, 400, `${modelId} not found`)
     }
-    const service = serviceMap[model]
-    const model = await service.getOneById(id)
-    if(!model){
-        return errorResponse(res, 400, `${model} not found`)
+    const service = serviceMap[modelName]
+    const doc = await service.getOneById(id)
+    if(!doc){
+        return errorResponse(res, 400, `${modelName} not found`)
     }
     next()
 }

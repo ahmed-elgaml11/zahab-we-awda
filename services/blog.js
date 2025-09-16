@@ -1,21 +1,22 @@
-import Airline from "../models/Airline.js";
+import Blog from "../models/Blog.js";
 
 export const getAll = (filter) => {
-    return Airline.find(filter);
+    return Blog.find(filter);
 }
 
 export const createOne = async (body) => {
-    return Airline.create(body)
+    return Blog.create(body)
 }
 export const getOneById = async (id ) => {
-    return Airline.findById(id)
+    return Blog.findById(id)
 }
 
 export const updateOne = async (id, body ) => {
-    return await Airline.findByIdAndUpdate(id, body, {
+    return await Blog.findByIdAndUpdate(id, body, {
         new: true,
     })
 }
 export const deleteOne = async (id ) => {
-    return await Airline.findByIdAndDelete(id)
+    return await Blog.findByIdAndDelete(id)
 }
+
