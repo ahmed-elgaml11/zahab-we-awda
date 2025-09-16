@@ -74,8 +74,6 @@ const citySchema = new mongoose.Schema({
 
 citySchema.index({ country: 1, isActive: 1 });
 citySchema.index({ isPopular: 1 });
-citySchema.index({ 'name.en': 'text', 'name.ar': 'text' });
-citySchema.index({ 'coordinates.lat': 1, 'coordinates.lng': 1 });
 
 
 

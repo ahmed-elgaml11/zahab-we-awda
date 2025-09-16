@@ -84,7 +84,6 @@ packageSchema.index({ country: 1, city: 1 });
 packageSchema.index({ packageType: 1 });
 packageSchema.index({ price: 1 });
 packageSchema.index({ 'name': 'text', 'description': 'text' });
-packageSchema.index({ slug: 1 });
 
 packageSchema.pre('save', function (next) {
   if (this.isModified('name') && this.name) {

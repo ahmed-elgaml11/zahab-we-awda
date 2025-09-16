@@ -8,7 +8,6 @@ import { rateLimit } from 'express-rate-limit'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import mongoSantize from 'express-mongo-sanitize'
-import hpp from 'hpp'
 // import { swaggerSpec } from './utils/swagger';
 // import swaggerUi from 'swagger-ui-express';
 import cros from 'cors'
@@ -64,17 +63,10 @@ app.use(mongoSantize())
 // request logger 
 app.use(morgan('dev'))
 
-// prevent parameter pollution
-app.use(hpp({
-    whitelist: [
-        'price',
-        'difficulty',
-        'duration',
-        'maxGroupSize'
-    ]
-}))
 
 app.use('/api/v1', api)
+
+
 app.use((req, res, next) => {
   next(new AppError(`Not Found - ${req.originalUrl}`, 404));
 });

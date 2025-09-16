@@ -8,6 +8,7 @@ import { resizePhotos } from '../middlewares/resizePhotos.js';
 import { uploadImages } from '../middlewares/uploadPhotos.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
 import { packageSchema, packageUpdateSchema } from '../schema/packageSchema.js';
+import upload from '../middlewares/upload.js';
 
 
 

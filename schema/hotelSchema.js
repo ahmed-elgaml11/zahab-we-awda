@@ -1,6 +1,5 @@
 // hotelSchema.ts
 import { z } from 'zod';
-import { imageSchema } from './imageSchema';
 
 const objectIdString = z.string().refine(val => Types.ObjectId.isValid(val), {
   message: 'Invalid ObjectId',

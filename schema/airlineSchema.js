@@ -5,11 +5,9 @@ const objectIdString = z.string().refine(val => mongoose.Types.ObjectId.isValid(
   message: 'Invalid ObjectId',
 });
 
-z.objectIdString = () => objectIdString;
-
 export const airlineSchema = z.object({
   name: z.string().min(1, "Airline name is required"),
-  imageCover: z.url().optional(),
+  imageCover: z.string().optional(),
   alt: z.string().optional(),
   seo: z.object({
     metaTitle: z.string().trim().max(60).optional(),

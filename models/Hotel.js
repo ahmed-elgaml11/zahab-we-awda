@@ -109,4 +109,4 @@ hotelSchema.pre('save', function (next) {
   next();
 });
 
-export default mongoose.model('Hotel', HotelSchema);
+export default mongoose.model('Hotel', hotelSchema);

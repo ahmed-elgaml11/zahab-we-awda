@@ -1,5 +1,3 @@
-name, description, descText, city, country, includes, execludes, paths [name, duration ,description, descText]
-
 import { z } from "zod";
 const objectIdString = z.string().refine(val => mongoose.Types.ObjectId.isValid(val), {
   message: 'Invalid ObjectId',

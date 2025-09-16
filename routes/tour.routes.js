@@ -8,7 +8,7 @@ import { protect, restrictTo } from '../middlewares/auth.js';
 import { uploadImages } from '../middlewares/uploadPhotos.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
 import { checkModelId } from '../utils/checkDocumentExists.js';
-import { tourSchema } from '../schema/tourSchema.js';
+import { tourSchema, tourUpdateSchema } from '../schema/tourSchema.js';
 
 
 router

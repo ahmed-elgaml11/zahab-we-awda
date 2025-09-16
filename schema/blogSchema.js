@@ -23,4 +23,4 @@ export const blogSchema = z.object({
     ogImage: z.string().trim().optional(),
   }).optional(),
 });
-export const blogUpdateSchema = hotelSchema.partial();
+export const blogUpdateSchema = blogSchema.partial();

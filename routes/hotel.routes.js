@@ -1,11 +1,12 @@
 import express from 'express';
-import { protect } from '../middlewares/auth.js';
+import { protect, restrictTo } from '../middlewares/auth.js';
 import * as hotelControllers from '../controllers/hotel.controller.js'
 import { checkModelId } from '../utils/checkDocumentExists.js';
 import { hotelSchema, hotelUpdateSchema } from '../schema/hotelSchema.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
 import { resizePhotos } from '../middlewares/resizePhotos.js';
 import { uploadImages } from '../middlewares/uploadPhotos.js';
+import upload from '../middlewares/upload.js';
 const router = express.Router();
 
 router
