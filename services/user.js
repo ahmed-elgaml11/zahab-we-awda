@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import { successResponse } from "../utils/responseHandler.js";
 export const getAll = (filter) => {
     return User.find(filter);
 }
@@ -21,7 +22,7 @@ export const deleteOne = async (id ) => {
 }
 
 export const findUser = async (email) => {
-    return await User.findOne({ email })
+    return await User.findOne({ email }).select("+password");
 }
 
 
@@ -39,7 +40,7 @@ export const sendTokenResponse = (res, message, user ) => {
   };
 
   res.cookie('jwt', token, options)
-  return successResponse(res, 200, message, { ...user, token })
+  return successResponse(res, 200, message, { ...user.toJSON(), token })
   
 };
 

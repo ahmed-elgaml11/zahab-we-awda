@@ -1,6 +1,8 @@
 import { fileURLToPath } from 'url';
 import crypto from 'crypto'
 import path from 'path';
+import fs from 'fs';
+import sharp from 'sharp';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const resizePhotos = (modelName) => async (req, res, next) => {

@@ -1,12 +1,27 @@
 import express from 'express';
 const router = express.Router();
 import * as packageTypeControllers from '../controllers/packageType.controller.js'
-import { checkModelId } from '../utils/checkDocumentExists.js';
+import { checkModelId, checkModelSlug } from '../utils/checkDocumentExists.js';
 import { protect, restrictTo } from '../middlewares/auth.js';
 import { resizePhotos } from '../middlewares/resizePhotos.js';
 import { uploadImages } from '../middlewares/uploadPhotos.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
-import { packageTypeSchema, packageTypeUpdateSchema } from '../schema/packageTypeSchema';
+import { packageTypeSchema, packageTypeUpdateSchema } from '../schema/packageTypeSchema.js';
+import upload from '../middlewares/upload.js';
+
+
+
+
+router.get('/:packageTypeSlug', checkModelSlug('packageType'), packageTypeControllers.getPackageTypeCountries)
+
+
+
+router.get('/:packageTypeSlug/countries/:countrySlug', checkModelSlug('packageType'), checkModelSlug('country'), packageTypeControllers.getCountryPackages)
+
+
+router.get('/:packageTypeSlug/countries/:countrySlug/packages/:packageSlug', checkModelSlug('packageType'), checkModelSlug('country'), checkModelSlug('package'), packageTypeControllers.getPackageDetails)
+
+
 
 
 
@@ -19,17 +34,16 @@ router
     ]), resizePhotos('packageType'), uploadImages, validateRequest(packageTypeSchema), packageTypeControllers.addPackageType)
 
 
-router.use(checkModelId('packageType'))
 
 router
-    .route('/:id')
-    .get(packageTypeControllers.getPackageType)
-    .patch(protect, restrictTo(['admin', 'manager']), upload.fields([
+    .route('/admin/:id')
+    .get( checkModelId('packageType'), packageTypeControllers.getPackageType)
+    .patch( checkModelId('packageType'), protect, restrictTo(['admin', 'manager']), upload.fields([
         {name: 'imageCover', maxCount: 1},
         {name: 'images', maxCount: 20}
     ]),resizePhotos('packageType'), uploadImages, validateRequest(packageTypeUpdateSchema),  packageTypeControllers.updatePackageType)
     
-    .delete(protect, restrictTo(['admin']), packageTypeControllers.deletePackageType)
+    .delete( checkModelId('packageType'), protect, restrictTo(['admin']), packageTypeControllers.deletePackageType)
 
 
 

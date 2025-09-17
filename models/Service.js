@@ -65,9 +65,9 @@ serviceSchema.index({
     'seo.keywords': 'text'
 });
 
-serviceSchema.pre('save', function (next) {
+serviceSchema.pre('save', async function (next) {
     if (this.isModified('name') && this.name) {
-        this.slug = generateSlug(this.name);
+        this.slug = await generateSlug(this.name, this.constructor);
     }
 
     if (!this.alt && this.name) {

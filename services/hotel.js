@@ -20,3 +20,6 @@ export const deleteOne = async (id ) => {
     return await Hotel.findByIdAndDelete(id)
 }
 
+export const getHotelBySlug = async (slug) => {
+    return await Hotel.findOne({ slug })
+}

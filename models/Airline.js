@@ -40,9 +40,9 @@ const airlineSchema = new mongoose.Schema({
 airlineSchema.index({ name: 1 });
 
 
-airlineSchema.pre('save', function (next) {
+airlineSchema.pre('save', async function (next) {
   if (this.isModified('name') && this.name) {
-    this.slug = generateSlug(this.name);
+    this.slug = await generateSlug(this.name, this.constructor);
   }
 
   if (!this.alt && this.name) {

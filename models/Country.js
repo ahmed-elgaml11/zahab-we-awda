@@ -86,9 +86,9 @@ countrySchema.virtual('cities', {
   foreignField: 'country'
 });
 
-countrySchema.pre('save', function (next) {
+countrySchema.pre('save', async function (next) {
   if (this.isModified('name') && this.name) {
-    this.slug = generateSlug(this.name);
+    this.slug = await generateSlug(this.name, this.constructor);
   }
 
   if (!this.alt && this.name) {

@@ -6,6 +6,7 @@ export const blogSchema = z.object({
   description: z.string().trim().nonempty("Description is required"),
   tags: z.array(z.string().trim()).optional(),
   imageCover: z.string().optional(),
+  images: z.array(z.string()).optional(),
   alt: z.string().optional(),
   seo: z.object({
     metaTitle: z.string().trim().max(60).optional(),

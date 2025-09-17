@@ -20,3 +20,6 @@ export const deleteOne = async (id ) => {
     return await Blog.findByIdAndDelete(id)
 }
 
+export const getBlogBySlug = async (slug) => {
+    return await Blog.findOne({ slug })
+}

@@ -59,7 +59,8 @@ const limiter = rateLimit({
 })
 app.use('/api', limiter)
 // data sanitization against query injection
-app.use(mongoSantize())
+// app.use(mongoSantize())
+
 // request logger 
 app.use(morgan('dev'))
 

@@ -79,7 +79,7 @@ export const getOne = (model) =>
         if (!service) {
             return next(new AppError(`No service found for model: ${model}`, 500));
         }
-        const doc = await service.getOneById(id);
+        const doc = await service.getOneById(id)
         if (!doc) {
             throw new AppError('No Document found with that ID', 404);
         }

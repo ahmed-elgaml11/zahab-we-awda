@@ -17,6 +17,10 @@ const citySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  descText: {
+    type: String,
+    trim: true
+  },
   coordinates: {
     lat: { type: Number },
     lng: { type: Number }
@@ -78,9 +82,9 @@ citySchema.index({ isPopular: 1 });
 
 
 
-citySchema.pre('save', function (next) {
+citySchema.pre('save', async function (next) {
   if (this.isModified('name') && this.name) {
-    this.slug = generateSlug(this.name);
+    this.slug = await generateSlug(this.name, this.constructor);
   }
 
   if (!this.alt && this.name) {

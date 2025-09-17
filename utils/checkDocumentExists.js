@@ -24,17 +24,27 @@ const serviceMap = {
     blog: blogServices
 }
 
-export const checkModelId = ( modelName ) => async(req, res, next) => {
+export const checkModelId = (modelName) => async (req, res, next) => {
     const modelId = modelName + 'Id'
-    const id = req.params[modelId];
-
-     if(!id){
+    const { id } = req.params;
+    console.log(modelId, id)
+    if (!id) {
         return errorResponse(res, 400, `${modelId} not found`)
     }
     const service = serviceMap[modelName]
     const doc = await service.getOneById(id)
-    if(!doc){
+    if (!doc) {
         return errorResponse(res, 400, `${modelName} not found`)
     }
     next()
+}
+
+export const checkModelSlug = (modelName) => async (req, res, next) => {
+    const modelSlug = modelName + 'Slug'
+    const slug = req.params[modelSlug]
+    if (!slug) {
+        return errorResponse(res, 400, `${modelName} slug not found`)
+    }
+    next()
+
 }

@@ -20,3 +20,8 @@ export const deleteOne = async (id ) => {
     return await City.findByIdAndDelete(id)
 }
 
+
+
+export const getCityBySlug = async (slug) => {
+    return await City.findOne({ slug })
+}

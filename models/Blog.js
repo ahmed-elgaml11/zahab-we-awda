@@ -8,6 +8,7 @@ const blogSchema = new mongoose.Schema(
     description: { type: String, trim: true },
     tags: [{ type: String, trim: true }],
     imageCover: { type: String },
+    images: [String],
     slug: { type: String, unique: true },
     alt: { type: String, trim: true },
     seo: {
@@ -37,9 +38,9 @@ const blogSchema = new mongoose.Schema(
   }
 );
 
-blogSchema.pre('save', function (next) {
+blogSchema.pre('save', async function (next) {
   if (this.isModified('name') && this.name) {
-    this.slug = generateSlug(this.name);
+    this.slug = await generateSlug(this.name, this.constructor);
   }
 
   if (!this.alt && this.name) {

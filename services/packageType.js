@@ -19,3 +19,7 @@ export const updateOne = async (id, body ) => {
 export const deleteOne = async (id ) => {
     return await PackageType.findByIdAndDelete(id)
 }
+
+export const getPackageTypeBySlug = async (slug) => {
+    return await PackageType.findOne({ slug })
+}

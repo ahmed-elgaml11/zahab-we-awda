@@ -85,9 +85,9 @@ packageSchema.index({ packageType: 1 });
 packageSchema.index({ price: 1 });
 packageSchema.index({ 'name': 'text', 'description': 'text' });
 
-packageSchema.pre('save', function (next) {
+packageSchema.pre('save', async function (next) {
   if (this.isModified('name') && this.name) {
-    this.slug = generateSlug(this.name);
+    this.slug = await generateSlug(this.name, this.constructor);
   }
 
   if (!this.alt && this.name) {

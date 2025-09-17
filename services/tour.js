@@ -19,3 +19,8 @@ export const updateOne = async (id, body ) => {
 export const deleteOne = async (id ) => {
     return await Tour.findByIdAndDelete(id)
 }
+
+
+export const getTourBySlug = async (slug) => {
+    return await Tour.findOne({ slug })
+}

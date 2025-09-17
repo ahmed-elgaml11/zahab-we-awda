@@ -19,3 +19,7 @@ export const updateOne = async (id, body ) => {
 export const deleteOne = async (id ) => {
     return await Airline.findByIdAndDelete(id)
 }
+
+export const getAirLineBySlug = async (slug) => {
+    return await Airline.findOne({ slug })
+}

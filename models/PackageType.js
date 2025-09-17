@@ -23,7 +23,6 @@ const packageTypeSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-  countries: [{ type: mongoose.Schema.Types.ObjectId, ref: "Country" }],
   slug: { type: String, unique: true },
   alt: { type: String, trim: true },
   seo: {
@@ -53,9 +52,9 @@ const packageTypeSchema = new mongoose.Schema({
 
 
 
-packageTypeSchema.pre('save', function (next) {
+packageTypeSchema.pre('save', async function (next) {
     if (this.isModified('name') && this.name) {
-        this.slug = generateSlug(this.name);
+        this.slug = await generateSlug(this.name, this.constructor);
     }
 
     if (!this.alt && this.name) {
